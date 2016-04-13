@@ -7,6 +7,7 @@
     *  变量的解构赋值
     *  let和const
     *  Promise async await
+    *  fetch
     *  class
     *  Module
     *  等等自己挖掘
