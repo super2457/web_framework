@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>TEST Require</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="public/styles/common.css">
+
+    <script>
+        (function (W) {W.RequireConfig = {
+            type : "default", // (default | custom)
+            main : "test",
+            content : {} // type custom, Object
+        }})(window)
+    </script>
+    <script data-main="public/lib/require-shim.js" src="public/lib/require.js" defer async="true"></script>
+</head>
+<body>
+    <!--[if lte IE 8]> <p class="browserupgrade">你的浏览器已经<strong>过时</strong>了. 请<a href="http://browsehappy.com/">升级浏览器</a>到最新版本.</p> <![endif]-->
+    <!--[if lt IE 9]><script src="public/lib/html5shiv.min.js"></script><script src="public/lib/respond.min.js"></script><script src="public/lib/eventListenerIEPolyfill.min.js"></script><![endif]-->
+    <!--[if lt IE 10]><script src="public/lib/json3.min.js"></script><![endif]-->
+
+    <!-- Add your site or application content here -->
+    <section id="content">
+        <h1>水果列表</h1>
+        <ul>
+            <li>1.西瓜</li>
+            <li>2.葡萄</li>
+            <li>3.橘子</li>
+        </ul>
+    </section>
+
+    <script id="artContent" type="text/html">
+        <h1>{{title}}</h1>
+        <ul>
+            {{each list as value i}}
+            <li>{{i + 1}} ：{{value}}</li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <section id="circle"></section>
+
+    <input type="button" value="动画" id="btn">
+
+    <section style="width: 10px; height: 1500px; background: bisque"></section>
+
+    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="http://ww3.sinaimg.cn/small/005NoE53gw1f2txcj86xbj30xc0uen6s.jpg">
+</body>
+</html>
