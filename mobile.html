@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mobile</title>
+    <meta name="flexible" content="initial-dpr=1" />
+    <meta content="modeName=750-12" name="grid" />
+    <script src="public/lib/flexible.js"></script>
+    <script src="public/lib/makegrid.js"></script>
+    <!-- makegrid.js ：网格布局 -->
+    <style>
+        html,body,div,p{margin: 0; padding: 0; font-family: 微软雅黑}
+        .devactive{width: 5rem;line-height: 2rem;text-align: center;display: block; background: red;}
+        .devactive:active{background: red;}
+        #wrapper {
+            position: absolute;
+            z-index: 1;
+            top: 45px;
+            bottom: 45px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            /* Prevent native touch events on Windows */
+            -ms-touch-action: none;
+
+            /* Prevent the callout on tap-hold and text selection */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            /* Prevent text resize on orientation change, useful for web-apps */
+            -webkit-text-size-adjust: none;
+            -moz-text-size-adjust: none;
+            -ms-text-size-adjust: none;
+            -o-text-size-adjust: none;
+            text-size-adjust: none;
+        }
+
+        #scroller {
+            width: 100%;
+            /* Prevent elements to be highlighted on tap */
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+            /* Put the scroller into the HW Compositing layer right from the start */
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div id="wrapper" style="background: #cccccc">
+        <div id="scroller" style="background: pink">
+            <div class="grid">
+                <div class="col-4">你</div>
+                <div class="col-4">好</div>
+                <div class="col-4">嘛</div>
+            </div>
+
+            <div class="grid">
+                <div class="col-12">1</div>
+            </div>
+
+            <section class="devactive" id="dev">
+                TEST
+            </section>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+            <p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p><p>西瓜</p>
+
+        </div>
+        <div id="pullRefresh" style="position: absolute; top: 0; z-index: -1; line-height: 50px; text-align: center; width: 100%;">下来刷新</div>
+        <div style="position: absolute; bottom: 0; z-index: -1; line-height: 50px; text-align: center; width: 100%;">加载更多</div>
+    </div>
+
+    <script src="public/lib/iscroll-probe.js"></script>
+    <script src="public/lib/hammer.min.js"></script>
+    <script>
+        (function (w,d,load) {
+            (d.readyState === 'complete')?load():w.onload = load;
+        })(window,document,function () {
+
+
+            var myScroll = new IScroll('#wrapper',{
+                scrollbars: true,
+                probeType: 2,
+                toRefreshSize : document.getElementById('pullRefresh').offsetHeight,
+                toRefreshFunc : function (callback) {
+                    setTimeout(function () {
+                        callback();
+                    },2000)
+                }
+            });
+
+            var Dev = document.getElementById('dev');
+
+            var DevTouchObj = new Hammer(Dev);
+
+            DevTouchObj.on("panleft panright tap press", function(ev) {
+                Dev.innerHTML = ev.type;
+                console.log(ev);
+            });
+
+            myScroll.scrollTo(0, -100, 2000,  IScroll.utils.ease.elastic);
+            // x y timer tween
+            function updatePosition () {
+                console.log(this.y);
+                //myScroll.refresh(); 刷新滚动条,当元素改变的时候
+                //myScroll.destroy(); 不需要iscroll的时候释放它
+            }
+            myScroll.on('scroll', updatePosition);
+//            myScroll.on('scrollEnd', updatePosition);
+            // scroll, the content is scrolling. Available only in `scroll-probe.js` edition.
+
+            document.body.addEventListener('touchstart', function () { });
+            document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+        });
+    </script>
+</body>
+</html>
